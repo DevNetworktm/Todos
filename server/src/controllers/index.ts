@@ -1,6 +1,5 @@
 import { Request, Response } from "express";
 import Todos from "../models/todos";
-import moment from "moment";
 
 export const IndexGetAllTodos = async (req: Request, res: Response) => {
     const { filter } = req.query;
@@ -16,7 +15,7 @@ export const IndexGetAllTodos = async (req: Request, res: Response) => {
                 todos = await Todos.find({ finish: true })
         }
     } else {
-        const todos = await Todos.find();
+        todos = await Todos.find();
     }
 
     return res.status(200).json(todos);
@@ -34,7 +33,8 @@ export const IndexCreateNewTodos = async (req: Request, res: Response) => {
     const { message } = req.body;
     const todo = new Todos({
         message,
-        created_at: moment()
+        finish: false,
+        created_at: Date.now()
     }).save()
 
     return res.sendStatus(201)

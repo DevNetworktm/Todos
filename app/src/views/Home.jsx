@@ -4,6 +4,7 @@ import Todos from "../services/todos.jsx";
 // styles
 import "./styles/Home.scss";
 import { Check, CloudPlus } from "react-bootstrap-icons";
+import Todo from "../components/todo.jsx";
 
 // icons
 
@@ -13,7 +14,7 @@ function Home(){
         status: "none",
         content: ""
     });
-    const [ todos, setTodos ] = useState();
+    const [ todos, setTodos ] = useState([]);
 
     useEffect(() => {
         (async _ => {
@@ -21,9 +22,12 @@ function Home(){
         })()
     }, [])
 
-    function handleClick(){
-        if ( add.status === "active" ) {
+    async function handleClick(){
+        if ( add.status === "active" && add.content !== "" ) {
             setAdd({ status: "onPush", content: add.content })
+            await Todos.Create(add.content);
+            setTodos(await Todos.GetAll());
+            setAdd({ status: "none", content: "" })
         } else {
             setAdd({ status: "active", content: "" })
         }
@@ -51,20 +55,30 @@ function Home(){
 
     return (
         <>
-            <div className={ "Add" }>
-                <button onClick={ handleClick } className={ "btn" }>
-                    {
-                        ButtonState()
-                    }
-                </button>
-                { add.status === "active" || add.status === "onPush"
-                    ?
-                    <textarea disabled={ add.status === "onPush" } className={ "text" }
-                              onChange={ (e) => setAdd({ status: add.status, content: e.target.value }) }
-                              data-active={ add.status } value={ add.content }></textarea>
-                    : null
-                }
-            </div>
+            <section className="container">
+                <article>
+                    <div className={ "Add" }>
+                        <textarea disabled={ add.status === "onPush" }
+                                  className={ `text ${ add.status === "onPush" ? "push" : null }` }
+                                  onChange={ (e) => setAdd({ status: add.status, content: e.target.value }) }
+                                  data-active={ add.status === "onPush" || add.status === "active" }
+                                  value={ add.content }></textarea>
+                        <button onClick={ handleClick }
+                                className={ `btn ${ add.status === "onPush" ? "push" : null } ${ add.status === "active" && add.content === "" ? 'notValid' : "" }` }>
+                            {
+                                ButtonState()
+                            }
+                        </button>
+                    </div>
+                    <div className="todos">
+                        {
+                            todos.map(el => <Todo key={ el._id } _id={ el._id } message={ el.message }
+                                                  finish={ el.finish }
+                                                  created_at={ el.created_at } time={ el.time }/>)
+                        }
+                    </div>
+                </article>
+            </section>
         </>
     )
 }

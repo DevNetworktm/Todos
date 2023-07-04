@@ -1,0 +1,21 @@
+@import "../../styles/var";
+
+.CustomCheckBox {
+  cursor: pointer;
+
+  width: 15px;
+  height: 15px;
+
+  border-radius: 25px;
+  border: 3px solid $elementColor;
+
+
+  &[data-active="true"] {
+    background-color: $elementColor;
+    transition: 0.2s all ease;
+  }
+
+  transition: 0.1s all ease;
+
+  @include Shadow
+}

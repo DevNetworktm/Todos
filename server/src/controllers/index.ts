@@ -59,3 +59,15 @@ export const IndexDeleteTodos = async (req: Request, res: Response) => {
 
     return res.sendStatus(204)
 }
+
+export const IndexChangeVisibility = async (req: Request, res: Response) => {
+    const { id } = req.params;
+    const { finish } = req.query;
+
+    const todo = await Todos.updateOne({ _id: id }, { finish });
+    if (todo.modifiedCount >= 0) {
+        return res.sendStatus(200)
+    } else {
+        return res.sendStatus(400)
+    }
+}

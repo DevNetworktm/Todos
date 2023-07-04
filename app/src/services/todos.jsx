@@ -18,6 +18,15 @@ class Todos {
         const todo = await Axios.post("/", { message });
         return todo
     }
+
+    async Delete(id){
+        await Axios.delete(`/${ id }`);
+
+    }
+
+    async ChangeFinish(id, finish){
+        await Axios.put(`/${ id }/toggle?finish=${ finish }`)
+    }
 }
 
 export default new Todos();

@@ -1,5 +1,12 @@
 import { Router } from "express";
-import { IndexCreateNewTodos, IndexDeleteTodos, IndexGetAllTodos, IndexGetOne, IndexUpdateTodos } from "../controllers";
+import {
+    IndexChangeVisibility,
+    IndexCreateNewTodos,
+    IndexDeleteTodos,
+    IndexGetAllTodos,
+    IndexGetOne,
+    IndexUpdateTodos
+} from "../controllers";
 
 const indexRoute = Router();
 
@@ -8,6 +15,7 @@ indexRoute.get("/:id", IndexGetOne);
 
 indexRoute.post("/", IndexCreateNewTodos);
 
+indexRoute.put("/:id/toggle", IndexChangeVisibility)
 indexRoute.put("/:id", IndexUpdateTodos);
 
 indexRoute.delete("/:id", IndexDeleteTodos);

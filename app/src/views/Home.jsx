@@ -74,7 +74,7 @@ function Home(){
                         {
                             todos.map(el => <Todo key={ el._id } _id={ el._id } message={ el.message }
                                                   finish={ el.finish }
-                                                  created_at={ el.created_at } time={ el.time }/>)
+                                                  created_at={ el.created_at } time={ el.time } setTodos={ setTodos }/>)
                         }
                     </div>
                 </article>

@@ -11,8 +11,7 @@ import indexRoute from "./routes";
 
 const app = express();
 
-global.db = mongoose.createConnection(process.env.MONGODB_URL);
-
+const rest = mongoose.connect(process.env.MONGODB_URL);
 app.use(cors())
 app.use("/assets", express.static(path.join(__dirname, "../public/")));
 app.use(bodyParser.json());

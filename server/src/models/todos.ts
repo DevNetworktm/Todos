@@ -1,9 +1,15 @@
-import { Schema } from "mongoose";
+import { Schema, model } from "mongoose";
 
-const Todos = new Schema({
+interface ITodos {
+    message: string,
+    finish: boolean,
+    created_at: string,
+}
+
+const Todos = new Schema<ITodos>({
     message: String,
     finish: Boolean,
     created_at: String,
 });
 
-export default Todos;
+export default model<ITodos>("Todos", Todos);
